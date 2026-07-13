@@ -1,0 +1,5 @@
+# EAS Build upload exclusions (in addition to .gitignore when using Git)
+node_modules/
+.expo/
+dist/
+web-build/

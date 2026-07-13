@@ -1,0 +1,25 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+group = 'expo.modules.facelandmarks'
+version = '1.0.0'
+
+android {
+  namespace "expo.modules.facelandmarks"
+  defaultConfig {
+    versionCode 1
+    versionName "1.0.0"
+  }
+
+  sourceSets {
+    main {
+      assets.srcDirs += ["../../../assets"]
+    }
+  }
+}
+
+dependencies {
+  implementation "com.google.mediapipe:tasks-vision:0.10.14"
+}

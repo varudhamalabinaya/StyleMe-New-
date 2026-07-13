@@ -1,0 +1,11 @@
+{
+  "name": "face-landmarks",
+  "version": "1.0.0",
+  "description": "MediaPipe Face Landmarker still-image detection for StyleMe",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {},
+  "peerDependencies": {
+    "expo": "*"
+  }
+}

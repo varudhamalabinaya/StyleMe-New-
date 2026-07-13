@@ -1,0 +1,83 @@
+/**
+ * StyleMe — horizontal step indicator (full-width rail, labels under rail,
+ * solid dot on the line for the current step only).
+ * Tokens: styleme-tokens.css (--sm-stepper-*).
+ */
+
+.sm-stepper {
+  max-width: min(100%, 54rem);
+  margin: 0 auto;
+  padding: 0.65rem var(--sm-stepper-pad-x) 0.95rem;
+  box-sizing: border-box;
+}
+
+.sm-stepper__list {
+  position: relative;
+  display: flex;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: var(--sm-stepper-gap);
+}
+
+/* Continuous rail through the axis row */
+.sm-stepper__list::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--sm-stepper-axis-height) / 2 - var(--sm-stepper-rail-height) / 2);
+  height: var(--sm-stepper-rail-height);
+  background: var(--sm-stepper-rail);
+  border-radius: 1px;
+  z-index: 0;
+}
+
+.sm-stepper__item {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 0;
+  min-width: 2.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.sm-stepper__axis {
+  height: var(--sm-stepper-axis-height);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.55rem;
+}
+
+.sm-stepper__dot {
+  width: var(--sm-stepper-dot-size);
+  height: var(--sm-stepper-dot-size);
+  border-radius: 50%;
+  background: var(--sm-stepper-dot-active);
+  box-shadow: 0 0 0 2px var(--sm-stepper-ring);
+  flex-shrink: 0;
+}
+
+.sm-stepper__label {
+  display: block;
+  font-size: var(--sm-stepper-label-size);
+  line-height: 1.25;
+  font-weight: 400;
+  color: var(--sm-stepper-label-pending);
+  letter-spacing: 0.01em;
+}
+
+.sm-stepper__item.is-done .sm-stepper__label {
+  color: var(--sm-stepper-label-done);
+  font-weight: 500;
+}
+
+.sm-stepper__item.is-current .sm-stepper__label {
+  color: var(--sm-stepper-label-current);
+  font-weight: 700;
+}

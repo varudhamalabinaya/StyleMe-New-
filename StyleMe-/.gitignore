@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+build/
+.next/
+out/
+web-build/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE / local
+.cursor/
+
+# Supabase CLI local state (may include project URLs)
+web/supabase/.temp/

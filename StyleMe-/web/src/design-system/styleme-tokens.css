@@ -1,0 +1,48 @@
+/**
+ * StyleMe design tokens — shared by entry (splash/about/support) and wizard flow.
+ * Form tokens follow the minimal labeled-control reference (charcoal border, grey label).
+ */
+:root {
+  --sm-page-bg: #f5f5f5;
+  --sm-dot: rgba(0, 0, 0, 0.055);
+  --sm-dot-size: 14px;
+
+  --sm-card-bg: #ffffff;
+  --sm-card-radius: 12px;
+  --sm-card-shadow: 0 22px 50px rgba(15, 23, 42, 0.08), 0 8px 20px rgba(15, 23, 42, 0.04);
+
+  --sm-accent: #e2e633;
+  --sm-accent-hover: #d4d82a;
+  --sm-text: #000000;
+  --sm-muted: #525252;
+  --sm-label: #5c5c5c;
+  --sm-border-subtle: #e5e5e5;
+
+  --sm-input-border: #3a3a3a;
+  --sm-input-radius: 10px;
+  --sm-input-bg: #ffffff;
+
+  --sm-topbar-bg: rgba(255, 255, 255, 0.92);
+  --sm-header-bg: #f9f9f9;
+  --sm-header-border: #ececec;
+  --sm-flow-stage-pad-x: clamp(0.75rem, 3vw, 1.25rem);
+  --sm-flow-stage-pad-y: clamp(0.75rem, 3vw, 1.25rem);
+  --sm-flow-card-max: 32rem;
+  --sm-flow-card-wide-max: 48rem;
+
+  /* Horizontal stepper (rail + labels; dot on current only) */
+  --sm-stepper-rail: #e5e5e5;
+  --sm-stepper-rail-height: 2px;
+  --sm-stepper-axis-height: 14px;
+  --sm-stepper-dot-size: 10px;
+  /* Active marker on rail (reference used forest green; lime matches StyleMe CTAs) */
+  --sm-stepper-dot-active: var(--sm-accent);
+  --sm-stepper-label-current: #000000;
+  --sm-stepper-label-done: #737373;
+  --sm-stepper-label-pending: #b8b8b8;
+  --sm-stepper-label-size: 0.8125rem;
+  --sm-stepper-ring: var(--sm-page-bg);
+  /* Space between step columns (rail still spans full width) */
+  --sm-stepper-gap: clamp(0.5rem, 2.8vw, 1.35rem);
+  --sm-stepper-pad-x: clamp(1.1rem, 4.5vw, 2.25rem);
+}

@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* StyleMe — compact product UI tokens */
+:root {
+  --font-heading: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  --color-primary: #6c5ce7;
+  --color-secondary: #a78bfa;
+  --color-cta: #6c5ce7;
+  --color-background: #f8f9fb;
+  --color-text: #1a1a1a;
+  --color-text-muted: #6b7280;
+  --color-surface: #ffffff;
+  --color-border: #e6e8ef;
+
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-compact: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 1.75rem;
+  --space-2xl: 2.25rem;
+  --space-3xl: 3rem;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(17, 24, 39, 0.04);
+  --shadow-md: 0 4px 12px rgba(17, 24, 39, 0.06);
+  --shadow-lg: 0 8px 24px rgba(17, 24, 39, 0.08);
+
+  --transition: 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition: 0.01ms;
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "expo": {
+    "name": "StyleMe",
+    "slug": "styleme-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "styleme",
+    "plugins": [
+      "expo-dev-client",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "StyleMe needs photo access to analyze your face shape and generate hairstyle previews.",
+          "cameraPermission": "StyleMe needs camera access to capture your photo."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "StyleMe needs camera access to capture your photo for face shape analysis.",
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
+      ],
+      "expo-font"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.styleme.app"
+    },
+    "android": {
+      "package": "com.styleme.app",
+      "usesCleartextTraffic": true,
+      "adaptiveIcon": {
+        "backgroundColor": "#f5f5f5",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7773698f-a887-4b6d-94e6-a3f7fb2c8cc3"
+      }
+    },
+    "owner": "abinaya_005"
+  }
+}

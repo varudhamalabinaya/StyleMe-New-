@@ -1,0 +1,109 @@
+/**
+ * App-wide slim header (reference: light bar, logo left, primary Next right).
+ */
+
+.sm-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  flex-shrink: 0;
+  background: var(--sm-header-bg);
+  border-bottom: 1px solid var(--sm-header-border);
+}
+
+.sm-header__inner {
+  max-width: min(100%, 78rem);
+  margin: 0 auto;
+  padding: 0.55rem clamp(1rem, 4vw, 1.75rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: 2.75rem;
+  box-sizing: border-box;
+}
+
+.sm-header__left {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.sm-header__back {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0.35rem 0.5rem;
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--sm-muted);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background var(--transition);
+}
+
+.sm-header__back:hover {
+  color: var(--sm-text);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.sm-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  text-decoration: none;
+  color: var(--sm-text);
+}
+
+.sm-header__brand:hover {
+  opacity: 0.88;
+}
+
+.sm-header__mark {
+  flex-shrink: 0;
+  width: 1.65rem;
+  height: 1.65rem;
+  color: var(--sm-text);
+}
+
+.sm-header__wordmark {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.sm-header__right {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.sm-header__next {
+  margin: 0;
+  padding: 0.5rem 1.15rem;
+  border: none;
+  border-radius: 9999px;
+  background: var(--sm-accent);
+  color: var(--sm-text);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.sm-header__next:hover:not(:disabled) {
+  background: var(--sm-accent-hover);
+}
+
+.sm-header__next:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
