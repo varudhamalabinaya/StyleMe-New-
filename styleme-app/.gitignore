@@ -40,3 +40,4 @@ yarn-error.*
 *.tsbuildinfo
 
 # MediaPipe model: keep tracked so EAS Build uploads it (download via npm run download:model if missing locally)
+node_modules
