@@ -6,12 +6,14 @@ import type { RootStackParamList } from '../navigation/AppNavigator'
 import { FlowHeaderNav } from '../components/FlowHeaderNav'
 import { useWizard } from '../context/WizardContext'
 import type { FaceShapeLabel } from '../lib/faceShape'
+import { PREVIEW_IMAGE_COUNT } from '../lib/api'
 import { buildStyleIdeas } from '../lib/styleData'
 import { theme } from '../lib/theme'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Results'>
 
 const RESULT_BADGES = ['Best match', 'Volume boost', 'Low maintenance', 'Try something new'] as const
+const RESULT_SLOTS = Array.from({ length: PREVIEW_IMAGE_COUNT }, (_, index) => index)
 
 function ResultCard({
   title,
@@ -24,11 +26,23 @@ function ResultCard({
   badgePrimary: boolean
   imageUrl?: string
 }) {
+  console.log('Rendering image:', imageUrl)
+
   return (
     <View style={styles.card}>
       <View style={styles.imageContainer}>
         {imageUrl ? (
-          <Image source={{ uri: imageUrl }} style={styles.previewImage} resizeMode="cover" />
+          <Image
+            source={{ uri: imageUrl }}
+            style={styles.previewImage}
+            resizeMode="cover"
+            onError={(event) => {
+              console.log('Image load failed:', imageUrl, event.nativeEvent)
+            }}
+            onLoad={() => {
+              console.log('Loaded:', imageUrl)
+            }}
+          />
         ) : (
           <View style={styles.imagePlaceholder} />
         )}
@@ -43,9 +57,14 @@ function ResultCard({
   )
 }
 
-export default function ResultsScreen({ navigation }: Props) {
+export default function ResultsScreen({ navigation, route }: Props) {
   const insets = useSafeAreaInsets()
   const { resetWizard, setup, faceShape, prompt, selectedStylePill, generatedImageUrls } = useWizard()
+  const routeImageUrls = route.params?.imageUrls ?? []
+  const imageUrls =
+    routeImageUrls.length > 0 ? routeImageUrls : generatedImageUrls
+
+  console.log('ResultsScreen imageUrls:', imageUrls)
 
   const shapeLabel = (faceShape?.shape ?? 'Oval') as FaceShapeLabel
   const ideas = buildStyleIdeas({
@@ -53,14 +72,14 @@ export default function ResultsScreen({ navigation }: Props) {
     setup,
     prompt,
     selectedStylePill,
-  }).slice(0, 4)
+  }).slice(0, PREVIEW_IMAGE_COUNT)
 
   const displayIdeas =
-    ideas.length >= 4
+    ideas.length >= PREVIEW_IMAGE_COUNT
       ? ideas
       : [
           ...ideas,
-          ...Array.from({ length: 4 - ideas.length }, (_, i) => ({
+          ...Array.from({ length: PREVIEW_IMAGE_COUNT - ideas.length }, (_, i) => ({
             title: `Style idea ${ideas.length + i + 1}`,
             description: '',
           })),
@@ -96,39 +115,36 @@ export default function ResultsScreen({ navigation }: Props) {
           </View>
         </View>
 
-        {generatedImageUrls.length === 0 ? (
+        {imageUrls.length < PREVIEW_IMAGE_COUNT ? (
           <Text style={styles.emptyHint}>
-            Previews are still generating or unavailable. Go back and tap See results again.
+            {imageUrls.length === 0
+              ? 'Previews are still generating or unavailable. Go back and tap See results again.'
+              : `Only ${imageUrls.length} of ${PREVIEW_IMAGE_COUNT} previews loaded. Go back and tap See results again.`}
           </Text>
         ) : null}
 
         <View style={styles.grid}>
           <View style={styles.gridRow}>
-            <ResultCard
-              title={displayIdeas[0].title}
-              badge={RESULT_BADGES[0]}
-              badgePrimary
-              imageUrl={generatedImageUrls[0]}
-            />
-            <ResultCard
-              title={displayIdeas[1].title}
-              badge={RESULT_BADGES[1]}
-              badgePrimary={false}
-              imageUrl={generatedImageUrls[1]}
-            />
+            {RESULT_SLOTS.slice(0, 2).map((index) => (
+              <ResultCard
+                key={index}
+                title={displayIdeas[index].title}
+                badge={RESULT_BADGES[index]}
+                badgePrimary={index === 0}
+                imageUrl={imageUrls[index]}
+              />
+            ))}
           </View>
           <View style={styles.gridRow}>
-            <ResultCard
-              title={displayIdeas[2].title}
-              badge={RESULT_BADGES[2]}
-              badgePrimary={false}
-              imageUrl={generatedImageUrls[2]}
-            />
-            <ResultCard
-              title={displayIdeas[3].title}
-              badge={RESULT_BADGES[3]}
-              badgePrimary={false}
-            />
+            {RESULT_SLOTS.slice(2, 4).map((index) => (
+              <ResultCard
+                key={index}
+                title={displayIdeas[index].title}
+                badge={RESULT_BADGES[index]}
+                badgePrimary={false}
+                imageUrl={imageUrls[index]}
+              />
+            ))}
           </View>
         </View>
       </ScrollView>

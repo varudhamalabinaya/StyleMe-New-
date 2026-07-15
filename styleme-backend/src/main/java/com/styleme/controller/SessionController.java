@@ -8,12 +8,14 @@ import com.styleme.service.StyleSessionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 import java.util.UUID;
@@ -61,10 +63,15 @@ public class SessionController {
     }
 
     @PostMapping("/{id}/generate")
-    public ResponseEntity<?> generateImages(@PathVariable UUID id) {
-        System.out.println("[StyleMe API] POST /api/sessions/" + id + "/generate");
+    public ResponseEntity<?> generateImages(@PathVariable UUID id, HttpServletRequest request) {
+        String requestBaseUrl = ServletUriComponentsBuilder.fromRequest(request)
+                .replacePath(null)
+                .build()
+                .toUriString();
+        System.out.println("[StyleMe API] POST /api/sessions/" + id + "/generate requestBaseUrl=" + requestBaseUrl);
         try {
-            List<String> images = sessionService.generatePreviewImages(id);
+            List<String> images = sessionService.generatePreviewImages(id, requestBaseUrl);
+            System.out.println("[StyleMe API] generate images returned (" + images.size() + "): " + images);
             return ResponseEntity.ok(new GenerateImagesResponse(images, images.size()));
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().body(new ErrorResponse(ex.getMessage()));

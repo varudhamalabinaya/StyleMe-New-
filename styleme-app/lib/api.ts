@@ -41,9 +41,39 @@ export type CreateSessionResponse = {
   id: string
 }
 
+export const PREVIEW_IMAGE_COUNT = 4
+
 export type GenerateImagesResponse = {
   images: string[]
   count: number
+}
+
+/** Rewrite backend image URLs so they load on a physical device (not localhost). */
+export function normalizeGeneratedImageUrl(url: string): string {
+  if (!url) return url
+  if (url.startsWith('data:')) return url
+
+  const apiBase = API_BASE_URL.replace(/\/$/, '')
+
+  if (url.startsWith('/')) {
+    return `${apiBase}${url}`
+  }
+
+  try {
+    const parsed = new URL(url)
+    const apiOrigin = new URL(apiBase)
+    const localHosts = new Set(['localhost', '127.0.0.1', '10.0.2.2'])
+    if (localHosts.has(parsed.hostname)) {
+      parsed.protocol = apiOrigin.protocol
+      parsed.hostname = apiOrigin.hostname
+      parsed.port = apiOrigin.port
+      return parsed.toString()
+    }
+  } catch {
+    // Keep original if URL parsing fails.
+  }
+
+  return url
 }
 
 function buildApiUrl(path: string): string {
@@ -95,6 +125,15 @@ export async function generateSessionImages(sessionId: string): Promise<string[]
   console.log('[StyleMe API] generateSessionImages →', url)
 
   const { data } = await api.post<GenerateImagesResponse>(`/api/sessions/${sessionId}/generate`)
-  console.log('[StyleMe API] generateSessionImages ✓ count=', data.count)
-  return data.images ?? []
+  const rawImages = data.images ?? []
+  const images = rawImages.map(normalizeGeneratedImageUrl)
+  console.log('[StyleMe API] generateSessionImages ✓ count=', data.count, 'expected=', PREVIEW_IMAGE_COUNT)
+  if (images.length !== PREVIEW_IMAGE_COUNT) {
+    console.warn(
+      `[StyleMe API] expected ${PREVIEW_IMAGE_COUNT} images but received ${images.length}`,
+    )
+  }
+  console.log('[StyleMe API] generateSessionImages raw images:', rawImages)
+  console.log('[StyleMe API] generateSessionImages normalized images:', images)
+  return images
 }

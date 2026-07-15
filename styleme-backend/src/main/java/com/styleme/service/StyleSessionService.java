@@ -75,6 +75,12 @@ public class StyleSessionService {
     }
 
     public List<String> generatePreviewImages(UUID sessionId) throws IOException {
+        return generatePreviewImages(sessionId, publicBaseUrl);
+    }
+
+    public List<String> generatePreviewImages(UUID sessionId, String baseUrl) throws IOException {
+        String effectiveBaseUrl = normalizeBaseUrl(baseUrl);
+
         StyleSession session = requireSession(sessionId);
         Path photoPath = fileStorage.resolveStoredPhoto(session.getPhotoUrl());
         if (photoPath == null || !Files.isRegularFile(photoPath)) {
@@ -88,7 +94,7 @@ public class StyleSessionService {
         for (int i = 0; i < generated.size(); i++) {
             Path saved = fileStorage.saveGeneratedImage(sessionId, i + 1, generated.get(i));
             String relative = fileStorage.toRelativePath(saved);
-            imageUrls.add(publicBaseUrl + "/uploads/" + relative);
+            imageUrls.add(effectiveBaseUrl + "/uploads/" + relative);
         }
 
         session.setGeneratedImageUrls(writeUrlsJson(imageUrls));
@@ -110,6 +116,13 @@ public class StyleSessionService {
                 setup,
                 List.of()
         );
+    }
+
+    private String normalizeBaseUrl(String baseUrl) {
+        if (baseUrl == null || baseUrl.isBlank()) {
+            return publicBaseUrl;
+        }
+        return baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
     }
 
     private String writeUrlsJson(List<String> urls) {

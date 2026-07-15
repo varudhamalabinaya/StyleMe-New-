@@ -77,9 +77,10 @@ export default function StylePromptScreen({ navigation }: Props) {
       })
 
       const images = await generateSessionImages(sessionId)
+      console.log('Generated images:', images)
       setSessionId(sessionId)
       setGeneratedImageUrls(images)
-      navigation.navigate('Results')
+      navigation.navigate('Results', { imageUrls: images })
     } catch (error) {
       console.log('[StyleMe API] See results failed', parseApiError(error, 'unknown'))
       Alert.alert('Generation failed', parseApiError(error, 'Could not generate hairstyle previews.'))

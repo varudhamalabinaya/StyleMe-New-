@@ -6,7 +6,7 @@ Spring Boot 3 + Java 17 API for StyleMe mobile hairstyle preview generation.
 
 - **Strict OpenAI edit prompts** — identity preservation, hair-only edits, photorealistic output
 - **`sanitizeStyleRequest()`** — strips non-hair instructions (e.g. "make me taller", "change my shirt")
-- **3 preview variations** per session — same base style, slight interpretation differences
+- **4 preview variations** per session — same base style, slight interpretation differences
 - **REST API** — create session with photo, then generate previews
 
 ## Run locally (no Supabase)
@@ -58,15 +58,15 @@ Set `STYLEME_PUBLIC_BASE_URL` to the host your phone/emulator uses to fetch gene
 
 ### `POST /api/sessions/{id}/generate`
 
-Triggers 3 sequential OpenAI `gpt-image-1` image edits (~2–3 min each).
+Triggers 4 sequential OpenAI `gpt-image-1` image edits (~2–3 min each).
 
-**Response:** `{ "images": ["http://.../uploads/..."], "count": 3 }`
+**Response:** `{ "images": ["http://.../uploads/..."], "count": 4 }`
 
 ## Prompt rules
 
 Every OpenAI edit prompt follows this template:
 
-> Edit this photo. Keep the person's face, skin tone, and identity exactly the same — do not beautify or alter any facial feature. Change ONLY the hairstyle to: [sanitized request]. Keep the result photorealistic.
+> Edit the uploaded photo by changing ONLY the hairstyle. Preserve the person's identity exactly. Keep the face, skin tone, beard, mustache, expression, clothing, lighting, pose, camera angle, background and framing identical to the original image. Only replace the hairstyle with a realistic [sanitized request]. Do not beautify, retouch, enhance, regenerate or alter the face. The final result should look like the same person after getting a haircut at a professional salon.
 
 If the user prompt is empty or unrelated, a fallback style is chosen from `faceShape` + `gender`.
 

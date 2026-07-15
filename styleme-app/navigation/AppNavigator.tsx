@@ -27,7 +27,7 @@ export type RootStackParamList = {
   CapturePreview: undefined
   FaceShapeReveal: { photoUri: string; shape: string; confidence: number; fallback: boolean }
   StylePrompt: undefined
-  Results: undefined
+  Results: { imageUrls: string[] }
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>()

@@ -62,14 +62,14 @@ if ($session.error) {
 $sessionId = $session.id
 Write-Host "Session: $sessionId"
 
-Write-Host "Generating 3 preview images (this can take several minutes)..."
+Write-Host "Generating 4 preview images (this can take several minutes)..."
 $generateResp = curl.exe -s -X POST "$BaseUrl/api/sessions/$sessionId/generate"
 $generated = $generateResp | ConvertFrom-Json
 if ($generated.error) {
     Write-Error "Generate failed: $($generated.error)"
 }
-if (-not $generated.images -or $generated.images.Count -lt 3) {
-    Write-Error "Expected 3 images, got: $generateResp"
+if (-not $generated.images -or $generated.images.Count -lt 4) {
+    Write-Error "Expected 4 images, got: $generateResp"
 }
 
 Write-Host "Generated $($generated.count) images:"
